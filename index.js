@@ -26,17 +26,28 @@ const client = new MongoClient(uri, {
 });
 
 const database = client.db("VisaEase");
+const userCollection = database.collection("users");
 const visaCollection = database.collection("visas");
 const applicationCollection = database.collection("applications");
 async function run() {
   try {
-    // Post
+    // Users
+    app.post("/Users", async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
+    app.get("/Users", async (req, res) => {
+      const cursor = userCollection.find();
+      const users = await cursor.toArray();
+      res.send(users);
+    });
+    // Visas
     app.post("/Visa", async (req, res) => {
       const visa = req.body;
       const result = await visaCollection.insertOne(visa);
       res.send(result);
     });
-    // Get
     app.get("/Visa", async (req, res) => {
       const cursor = visaCollection.find();
       const visas = await cursor.toArray();
@@ -63,8 +74,18 @@ async function run() {
       const result = await visaCollection.deleteOne(query);
       res.send(result);
     });
+    // Applications
     app.post("/Applications", async (req, res) => {
       const application = req.body;
+      const existingApplication = await applicationCollection.findOne({
+        visaId: application.visaId,
+        email: application.email,
+      });
+      // If an application already exists, return an error
+      if (existingApplication) {
+        console.log("Application already exists.");
+        return res.status(400).send({ message: "Application already exists." });
+      }
       const result = await applicationCollection.insertOne(application);
       res.send(result);
     });
@@ -85,9 +106,6 @@ async function run() {
       const result = await applicationCollection.deleteOne(query);
       res.send(result);
     });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
