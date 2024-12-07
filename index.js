@@ -10,7 +10,7 @@ app.use(express.json());
 
 // routes
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("VisaEase!");
 });
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
