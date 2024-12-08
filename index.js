@@ -4,19 +4,12 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
 
-// middleware
 app.use(cors());
 app.use(express.json());
-
-// routes
-app.get("/", (req, res) => {
-  res.send("VisaEase!");
-});
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@schr0smi1ey.iioky.mongodb.net/?retryWrites=true&w=majority&appName=Schr0Smi1ey`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -31,6 +24,44 @@ const visaCollection = database.collection("visas");
 const applicationCollection = database.collection("applications");
 async function run() {
   try {
+    // Routes
+    app.get("/", (req, res) => {
+      res.send(`
+    <h1>Welcome to the VisaEase API!</h1>
+    <p>Use the following routes to interact with the VisaEase API:</p>
+
+    <h2>User Management</h2>
+    <ul>
+      <li><strong>POST /Users</strong>: Create a new user</li>
+      <li><strong>GET /Users</strong>: Get all users</li>
+    </ul>
+
+    <h2>Visa Management</h2>
+    <ul>
+      <li><strong>POST /Visa</strong>: Add a new visa</li>
+      <li><strong>GET /Visa</strong>: Get all visas</li>
+      <li><strong>GET /Visa/:id</strong>: Get visa details by ID</li>
+      <li><strong>PUT /Visa/:id</strong>: Update visa details</li>
+      <li><strong>DELETE /Visa/:id</strong>: Delete a visa by ID</li>
+    </ul>
+
+    <h2>Application Management</h2>
+    <ul>
+      <li><strong>POST /Applications</strong>: Submit a new application</li>
+      <li><strong>GET /Applications</strong>: Get all applications</li>
+      <li><strong>GET /Applications/:id</strong>: Get application details by ID</li>
+      <li><strong>DELETE /Applications/:id</strong>: Cancel an application</li>
+    </ul>
+
+    <h2>Errors</h2>
+    <ul>
+      <li><strong>400 Bad Request</strong>: Missing or invalid data</li>
+      <li><strong>404 Not Found</strong>: Resource not found</li>
+      <li><strong>500 Internal Server Error</strong>: Server issue</li>
+    </ul>
+  `);
+    });
+
     // Users
     app.post("/Users", async (req, res) => {
       const user = req.body;
