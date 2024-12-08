@@ -56,5 +56,42 @@ This is the backend server for **VisaEase**, a comprehensive visa application ma
 - **Vercel**: Deployed and hosted for high availability and performance.
 
 ---
+## 🌍 Root API URL
+
+The root URL for the **VisaEase Backend** is hosted on **Vercel** and can be accessed via:
+
+- **[https://visaease.vercel.app](https://visaease.vercel.app)**
+
+---
+
+## API Endpoints 🚀
+
+### User Routes
+
+| Method | Endpoint  | Description                       |
+|--------|-----------|-----------------------------------|
+| POST   | /Users    | Create a new user                |
+| GET    | /Users    | Fetch all users                  |
+
+### Visa Routes
+
+| Method | Endpoint     | Description                            |
+|--------|--------------|----------------------------------------|
+| POST   | /Visa        | Add new visa details                   |
+| GET    | /Visa        | View all visas                         |
+| GET    | /Visa/:id    | View a specific visa by its ID         |
+| PUT    | /Visa/:id    | Update visa details                    |
+| DELETE | /Visa/:id    | Delete a visa by its ID                |
+
+### Application Routes
+
+| Method | Endpoint         | Description                                    |
+|--------|------------------|------------------------------------------------|
+| POST   | /Applications    | Submit a new visa application                  |
+| GET    | /Applications    | View all visa applications                     |
+| GET    | /Applications/:id| View a specific application by its ID          |
+| DELETE | /Applications/:id| Cancel a visa application                      |
+
+---
 
 Built with 💙 and 🌍 by [Sarafat Karim](https://www.linkedin.com/in/sarafat-karim/)
